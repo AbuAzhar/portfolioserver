@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 const transporter = nodemailer.createTransport({
   service: "Gmail",
   auth: {
-    user: "74abuazhar@gmail.com", // Your email address (sender)
-    pass: "mslcbiqnupwtzudq", // Your email password or app-specific password
+    user: `${process.env.SENDER_MAIL}`, // Your email address (sender)
+    pass: `${process.env.SENDER_PASSWORD}`, // Your email password or app-specific password
   },
 });
 
@@ -44,10 +44,10 @@ app.post("/", async (req, res) => {
 
     // Send email to user using Nodemailer
     const userMailOptions = {
-      from: "74abuazhar@gmail.com",
+      from: process.env.SENDER_MAIL,
       to: email,
       subject: "Thank you for contacting us",
-      text: `Hello ${name},\n\n Thank you for reaching out to us. Your message has been received, and we will get back to you shortly.\n\nBest regards,\n Abu Azhar`,
+      text: `Hello ${name},\n\nThank you for reaching out to us. Your message has been received, and we will get back to you shortly.\n\nBest regards,\n Abu Azhar`,
     };
 
     transporter.sendMail(userMailOptions, (error, info) => {
@@ -60,8 +60,8 @@ app.post("/", async (req, res) => {
 
     // Send email to yourself (notification email)
     const adminMailOptions = {
-      from: "74abuazhar@gmail.com",
-      to: "your.notification.email@example.com",
+      from:email,
+      to: process.env.SENDER_MAIL,
       subject: "New Contact Form Submission",
       text: `A new contact form has been submitted:\n\nName: ${name}\nEmail: ${email}\nPhone: ${phone}\nMessage: ${message}`,
     };
