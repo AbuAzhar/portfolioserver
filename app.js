@@ -5,10 +5,12 @@ const User = require("./models/userModel");
 const dataBaseConnetivity = require("./config/db");
 const cors = require("cors");
 const nodemailer = require("nodemailer");
+const PORT = process.env.PORT || 4500
 
 dotenv.config({ path: "config/config.env" });
 
-const dbConnection = dataBaseConnetivity();
+// const dbConnection = dataBaseConnetivity();
+dataBaseConnetivity(); 
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -20,6 +22,7 @@ const transporter = nodemailer.createTransport({
     pass: "mslcbiqnupwtzudq", // Your email password or app-specific password
   },
 });
+
 
 app.post("/", async (req, res) => {
   try {
@@ -84,5 +87,5 @@ app.post("/", async (req, res) => {
   }
 });
 app.listen(process.env.PORT, () => {
-  console.log(`Server is working on http://localhost:${process.env.PORT}`);
+  console.log(`Server is working on http://localhost:${PORT}`);
 });
